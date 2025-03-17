@@ -6,13 +6,15 @@ import { TotalMoneyContext } from "../../TotalMoneyContext";
 import PieChart from "../../Pichart";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {BASE_URL} from './helper.js';
+
 
 export const FinancialRecordForm = () => {
   const { addTotal, submittedIncome } = useContext(TotalMoneyContext);
   const [record, setRecord] = useState([]);
   const fileInputRef = useRef();
   const notifyError = () => toast.error("Not enough balance");
-  const notifyAdded = () => toast("New data has been added");
+  const notifyAdded = () => toast("New item has been added");
 
   const [formData, setFormData] = useState({
     date: '',
@@ -24,7 +26,7 @@ export const FinancialRecordForm = () => {
   });
 
   const fetchRecords = () => {
-    axios.get('http://localhost:5000').
+    axios.get(`${BASE_URL}`).
       then((res) => {
         setRecord(res.data);
       }).catch((error) => {
@@ -36,13 +38,12 @@ export const FinancialRecordForm = () => {
     fetchRecords();
   }, []);
 
-
   const { user } = useUser();
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
     if (type === 'file') {
-      // Handle file input (i.e., receipt upload)
+      // Handle file input (i.e., image upload)
       setFormData({
         ...formData,
         [name]: files[0], // Storing the first file from the file input          
@@ -58,7 +59,7 @@ export const FinancialRecordForm = () => {
 
   const handleDelete = (id) => {
     try {
-      axios.delete(`http://localhost:5000/${id}`)
+      axios.delete(`${BASE_URL}/${id}`)
         .then(() => {
           const updateDate = record.filter(item => item._id !== id);
           setRecord(updateDate);
@@ -75,7 +76,7 @@ export const FinancialRecordForm = () => {
 
     try {
       // First, post the total amount to the backend
-      const response = await axios.post('http://localhost:5000/api/total', {
+      const response = await axios.post(`${BASE_URL}/api/total`, {
         total: submittedIncome - newRecord.amount,
       });
       addTotal(response.data.total);
@@ -92,14 +93,14 @@ export const FinancialRecordForm = () => {
       formDataToSubmit.append('category', newRecord.category);
       formDataToSubmit.append('paymentMethod', newRecord.paymentMethod);
 
-      // Append the receipt file (if available)
+      // Append the image file (if available)
       if (newRecord.receipt) {
         formDataToSubmit.append('receipt', newRecord.receipt.name);
       }
 
       if (submittedIncome > 0) {
         // Send POST request with FormData
-        const response = await axios.post('http://localhost:5000', formDataToSubmit, {
+        const response = await axios.post(`${BASE_URL}`, formDataToSubmit, {
           headers: {
             'Content-Type': 'multipart/form-data', // Specify the content type for file uploads
           },
@@ -225,7 +226,7 @@ export const FinancialRecordForm = () => {
 
           </div>
           <div className="flex justify-center">
-            <button type="submit" className="w-full md:w-auto mt-5 px-8 py-2 bg-[#ab60c4] text-white font-bold rounded">
+            <button type="submit" className="w-full md:w-auto mt-5 px-8 py-2 bg-[#ab60c4] hover:bg-[#9754ad] text-white font-bold rounded">
               Add Record
             </button>
           </div>

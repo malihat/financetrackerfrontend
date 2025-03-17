@@ -29,3 +29,9 @@ input {
   border-radius: 4px;
   /* Rounded corners for the scrollbar */
 }
+
+@media screen and (max-width: 523px) {
+  #monthly-total {
+    margin-top: 10px;
+  }
+}

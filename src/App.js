@@ -28,7 +28,7 @@ function AppContent() {
   return (
     <div className="items-center">
       <SignedIn>
-        <div className="p-1 bg-[#faf1e8] text-white flex justify-end">
+        <div className="p-1 bg-[#d1a6df] text-white flex justify-end">
           <UserButton showName afterSignOut={handleSignOut} />
         </div>
       </SignedIn>

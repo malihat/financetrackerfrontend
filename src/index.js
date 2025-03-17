@@ -8,9 +8,6 @@ import { TotalMoneyProvider } from './TotalMoneyContext';
 // dotenv.config()
 
 const PUBLISHABLE_KEY = "pk_test_Z3JhdGVmdWwtdG9ydG9pc2UtNTQuY2xlcmsuYWNjb3VudHMuZGV2JA"
-// "pk_test_Z3JhdGVmdWwtdG9ydG9pc2UtNTQuY2xlcmsuYWNjb3VudHMuZGV2JA"
-// import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
-// process.env.VITE_CLERK_PUBLISHABLE_KEY;
 
 if (!PUBLISHABLE_KEY) {
   throw new Error('Missing VITE_CLERK_PUBLISHABLE_KEY environment variable');

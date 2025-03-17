@@ -1,6 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { TotalMoneyContext } from "../../TotalMoneyContext";
+import {BASE_URL} from './helper.js';
 
 
 export default function TotalMonthlyIncome() {
@@ -10,14 +11,11 @@ export default function TotalMonthlyIncome() {
     const cmonth = new Date().toLocaleString('default', { month: 'long' });
     const year = new Date().getFullYear();
 
-    // const givenDate = new Date(date);
-    // const lastDayOfMonth = new Date(givenDate.getFullYear(), givenDate.getMonth() + 1, 0);
 
     useEffect(() => {
         const fetchTotal = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/total');
-                // console.log('This is from useEffect in income: ',response.data[0].total);
+                const response = await axios.get(`${BASE_URL}/api/total`);
 
                 if (response.data) {
                     addTotal(response.data[0].total); // Assuming `total` is part of the response
@@ -33,13 +31,10 @@ export default function TotalMonthlyIncome() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:5000/api/total', {
+            const response = await axios.post(`${BASE_URL}/api/total`, {
                 total: totalMoney,
             });
-            addTotal(response.data.total);   
-
-  
-                   
+            addTotal(response.data.total);                      
         } catch (error) {
             console.log(error);
         }
@@ -57,14 +52,17 @@ export default function TotalMonthlyIncome() {
         <div className="max-w-screen-lg	mx-auto">
             <div className="bg-purple-50 rounded p-8 mt-5">
                 <form onSubmit={handleSubmit}>
-                    <label className="text-lg me-3">Enter the Total Amount</label>
+                    <label className="text-base sm:text-lg font-medium text-gray-700 me-3">Enter the Total Amount</label>
                     <input id="input-field focus:border-blue-500" name="total"
                         placeholder="Enter Monthly Total" 
                         value={totalMoney}
                         onChange={handleChange}
-                        className="border-sm p-2"/>
+                        className="rounded-md border-sm p-1.5"/>
+                        <div id="monthly-total">
+                            <button type="submit" class="bg-[#ab60c4] text-white font-bold focus:outline-none hover:bg-[#9754ad] rounded-md px-5 py-2">Submit</button>
+                        </div>
                 </form>
-                <p className="text-lg mt-5">Total amount for {cmonth}, {year}: <br></br> 
+                <p className="text-base sm:text-lg font-medium text-gray-700 mt-5">Total amount for {cmonth}, {year}: <br></br> 
                     <span className="text-3xl font-bold text-[#ab60c4] mt-3">
                         {submittedIncome > 0 ? `$${submittedIncome}` : '' } 
                     </span>

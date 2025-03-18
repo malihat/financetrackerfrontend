@@ -6,7 +6,6 @@ import { TotalMoneyContext } from "../../TotalMoneyContext";
 import PieChart from "../../Pichart";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {BASE_URL} from './helper.js';
 
 
 export const FinancialRecordForm = () => {
@@ -26,7 +25,7 @@ export const FinancialRecordForm = () => {
   });
 
   const fetchRecords = () => {
-    axios.get(`${BASE_URL}`).
+    axios.get(`${process.env.REACT_APP_BASE_URL}`).
       then((res) => {
         setRecord(res.data);
       }).catch((error) => {
@@ -59,7 +58,7 @@ export const FinancialRecordForm = () => {
 
   const handleDelete = (id) => {
     try {
-      axios.delete(`${BASE_URL}/${id}`)
+      axios.delete(`${process.env.REACT_APP_BASE_URL}/${id}`)
         .then(() => {
           const updateDate = record.filter(item => item._id !== id);
           setRecord(updateDate);
@@ -76,7 +75,7 @@ export const FinancialRecordForm = () => {
 
     try {
       // First, post the total amount to the backend
-      const response = await axios.post(`${BASE_URL}/api/total`, {
+      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/total`, {
         total: submittedIncome - newRecord.amount,
       });
       addTotal(response.data.total);
@@ -100,7 +99,7 @@ export const FinancialRecordForm = () => {
 
       if (submittedIncome > 0) {
         // Send POST request with FormData
-        const response = await axios.post(`${BASE_URL}`, formDataToSubmit, {
+        const response = await axios.post(`${process.env.REACT_APP_BASE_URL}`, formDataToSubmit, {
           headers: {
             'Content-Type': 'multipart/form-data', // Specify the content type for file uploads
           },

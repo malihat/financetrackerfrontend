@@ -1,7 +1,6 @@
 import { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { TotalMoneyContext } from "../../TotalMoneyContext";
-import {BASE_URL} from './helper.js';
 
 
 export default function TotalMonthlyIncome() {
@@ -15,7 +14,7 @@ export default function TotalMonthlyIncome() {
     useEffect(() => {
         const fetchTotal = async () => {
             try {
-                const response = await axios.get(`${BASE_URL}/api/total`);
+                const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/total`);
 
                 if (response.data) {
                     addTotal(response.data[0].total); // Assuming `total` is part of the response
@@ -31,7 +30,7 @@ export default function TotalMonthlyIncome() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`${BASE_URL}/api/total`, {
+            const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/api/total`, {
                 total: totalMoney,
             });
             addTotal(response.data.total);                      

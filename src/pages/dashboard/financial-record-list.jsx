@@ -1,6 +1,5 @@
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { BASE_URL } from './helper';
 
 export const FinancialRecordList = ({ record, onDelete }) => {
   const notifyDeleted = () => toast("Item has been deleted");
@@ -38,7 +37,7 @@ export const FinancialRecordList = ({ record, onDelete }) => {
                   <td className="border border-gray-300 p-2">{item.date}</td>
                   <td className="border border-gray-300 p-2">${item.amount}</td>
                   <td className="border border-gray-300 p-2">
-                    <img src={`${BASE_URL}/uploads/${item.receipt}`} width={50} height={50} />
+                    <img src={`${process.env.REACT_APP_BASE_URL}/uploads/${item.receipt}`} width={50} height={50} />
                   </td>
                   <td className="border border-gray-300 p-2 text-center">
                     <button onClick={() => handleDelete(item._id)}>❌</button> 

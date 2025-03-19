@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext, useRef } from "react";
-import { useUser } from "@clerk/clerk-react";
+// import { useUser } from "@clerk/clerk-react";
 import axios from "axios";
 import { FinancialRecordList } from './financial-record-list';
 import { TotalMoneyContext } from "../../TotalMoneyContext";
@@ -37,7 +37,6 @@ export const FinancialRecordForm = () => {
     fetchRecords();
   }, []);
 
-  const { user } = useUser();
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
@@ -217,6 +216,7 @@ export const FinancialRecordForm = () => {
                 name='receipt'
                 type="file"
                 accept="image/*"
+                capture="environment"
                 onChange={handleChange}
                 className="w-full"
                 ref={fileInputRef}
